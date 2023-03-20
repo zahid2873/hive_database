@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   TextEditingController _controller = TextEditingController();
+  TextEditingController _updateController = TextEditingController();
   Box? _countryBox;
   
   @override
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
   }
+
   
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,10 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: ElevatedButton(
-                    onPressed: (){}, child: Text("ADD")),
+                    onPressed: (){
+                      final userData = _controller.text;
+                      _countryBox!.add(userData);
+                    }, child: Text("ADD")),
               ),
               SizedBox(height: 10,),
               Expanded(
@@ -59,6 +64,46 @@ class _HomePageState extends State<HomePage> {
                               child: ListTile(
                                 title: Text(
                                   _countryBox!.getAt(index).toString(),
+                                ),
+                                trailing: Container(
+                                  width: 100,
+                                  //color: Colors.blue,
+                                  child: Row(
+                                    children: [
+                                      IconButton(onPressed: (){
+                                        showDialog(context: context, builder: (context){
+                                          return AlertDialog(
+                                           content: Column(
+                                             children: [
+                                               TextField(
+                                                 controller: _updateController,
+                                                 decoration: InputDecoration(
+                                                   border: OutlineInputBorder(
+                                                     borderSide: BorderSide(color: Colors.blue),
+                                                     borderRadius: BorderRadius.circular(15)
+                                                   ),
+
+                                                 ),
+                                               ),
+                                               SizedBox(height: 10,),
+                                               ElevatedButton(onPressed: (){
+                                                 _countryBox!.putAt(index, _updateController.text);
+                                                 Navigator.pop(context);
+                                               }, child: Text("Update"))
+                                             ],
+                                           ),
+                                          );
+                                        });
+                                      }, icon: CircleAvatar(
+                                          backgroundColor: Colors.greenAccent,
+                                          child: Icon(Icons.edit))),
+                                      IconButton(onPressed: (){
+                                        _countryBox!.deleteAt(index);
+                                      }, icon: CircleAvatar(
+                                        backgroundColor: Colors.red,
+                                          child: Icon(Icons.remove))),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
