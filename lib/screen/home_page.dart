@@ -22,6 +22,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  void clearAddTextField() {
+    _controller.clear();
+  }
+  void clearUpdateTextField() {
+    _updateController.clear();
+  }
+
+
   
   @override
   Widget build(BuildContext context) {
@@ -50,6 +58,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: (){
                       final userData = _controller.text;
                       _countryBox!.add(userData);
+                      clearAddTextField();
                     }, child: Text("ADD")),
               ),
               SizedBox(height: 10,),
@@ -89,6 +98,7 @@ class _HomePageState extends State<HomePage> {
                                                ElevatedButton(onPressed: (){
                                                  _countryBox!.putAt(index, _updateController.text);
                                                  Navigator.pop(context);
+                                                 clearUpdateTextField();
                                                }, child: Text("Update"))
                                              ],
                                            ),
